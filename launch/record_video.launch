@@ -1,0 +1,17 @@
+<launch>
+    <!-- Start the image_view node -->
+    <node pkg="image_view" type="image_view" name="image_view" output="screen">
+        <!-- Set the input image topic -->
+        <remap from="image" to="/pylon_camera_node/image_rect"/>
+    </node>
+
+    <!-- Start the video_recorder node -->
+    <node pkg="video_recorder" type="video_recorder" name="video_recorder" output="screen">
+        <!-- Set the input image topic -->
+        <remap from="image" to="/pylon_camera_node/image_rect"/>
+        <!-- Set the output video file -->
+        <param name="filename" value="video.avi"/>
+        <param name="fps" value="30"/>
+        <param name="codec" value="XVID"/>
+    </node>
+</launch>

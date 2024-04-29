@@ -1,0 +1,8 @@
+<launch>
+    <!-- Start the image_view node -->
+    <node pkg="image_view" type="image_view" name="image_view" output="screen">
+        <!-- Set the input image topic -->
+        <remap from="image" to="/pylon_camera_node/image_rect"/>
+    </node>
+
+</launch>
