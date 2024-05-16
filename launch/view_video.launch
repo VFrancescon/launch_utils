@@ -1,8 +1,10 @@
 <launch>
     <!-- Start the image_view node -->
+    <include file="$(find pylon_camera)/launch/pylon_camera_node.launch"/>
     <node pkg="image_view" type="image_view" name="image_view" output="screen">
         <!-- Set the input image topic -->
         <remap from="image" to="/pylon_camera_node/image_rect"/>
     </node>
+    <include file="$(find launch_utils)/launch/adjust_framerate.launch"/>
 
 </launch>

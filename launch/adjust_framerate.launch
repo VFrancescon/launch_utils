@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="rosservice" type="rosservice" name="stop_grab" args="call --wait /pylon_camera_node/stop_grabbing"/>
+    <node pkg="rosservice" type="rosservice" name="set_framerate" args="call --wait pylon_camera_node/set_acquisition_frame_count &quot;{
+    value: 48}&quot;" />
+    <node pkg="rosservice" type="rosservice" name="start_grab" args="call --wait /pylon_camera_node/start_grabbing"/>
+    
+</launch>
