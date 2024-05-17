@@ -1,12 +1,10 @@
 <launch>
-    <!-- Start the image_view node -->
-
     <!-- Start the video_recorder node -->
     <node pkg="launch_utils" type="record_view.py" name="record_view" output="screen">
         <!-- Set the input image topic -->
         <remap from="image" to="/pylon_camera_node/image_rect"/>
         <!-- Set the output video file -->
-        <param name="file_name" value="30fps_test.mp4"/>
+        <param name="file_name" value="default_exp"/>
         <param name="codec" value="mp4v"/>
     </node>
 </launch>

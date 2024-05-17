@@ -20,15 +20,16 @@ if __name__ == '__main__':
 
     # Get file name from rosparam
     image_topic = 'image'
-    file_name = rospy.get_param('~file_name', 'output.mp4')
+    file_name = rospy.get_param('~file_name', 'output')
     base_path = "/home/vittorio/ros_ws/video_dumps/" 
+    current_date = datetime.datetime.now().strftime("%y_%m_%d_%H%M%S")
+    full_path = base_path + current_date + "_" + file_name + ".mp4"
     codec = rospy.get_param('~codec', 'mp4v')
     codec = cv2.VideoWriter_fourcc(*codec)
     # Create video writer
-    video_writer = cv2.VideoWriter(base_path + file_name, codec, 30, (1920, 1200))
-    # Print recording started message with timestamp
+    print(f"Recording to {full_path}")
     print(f"Recording started at {datetime.datetime.now()}")
-
+    video_writer = cv2.VideoWriter(full_path, codec, 30, (1920, 1200))
     # Subscribe to image topic
     rospy.Subscriber(image_topic, Image, image_callback)
 
