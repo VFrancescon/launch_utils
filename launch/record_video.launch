@@ -2,12 +2,11 @@
     <!-- Start the image_view node -->
 
     <!-- Start the video_recorder node -->
-    <node pkg="image_view" type="video_recorder" name="video_recorder" output="screen">
+    <node pkg="launch_utils" type="record_view.py" name="record_view" output="screen">
         <!-- Set the input image topic -->
         <remap from="image" to="/pylon_camera_node/image_rect"/>
         <!-- Set the output video file -->
-        <param name="filename" value="/home/vittorio/ros_ws/video_dumps/30fps_test.avi"/>
-        <param name="fps" value="15"/>
-        <param name="codec" value="XVID"/>
+        <param name="file_name" value="30fps_test.mp4"/>
+        <param name="codec" value="mp4v"/>
     </node>
 </launch>
