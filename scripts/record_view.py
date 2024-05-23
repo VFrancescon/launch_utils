@@ -15,11 +15,20 @@ def image_callback(msg):
     # Write image to video file
     video_writer.write(cv_image)
 
+def check_topic_exists(topic_name):
+    topics = rospy.get_published_topics()
+    for topic in topics:
+        if topic[0] == topic_name:
+            return True
+    return False
+
 if __name__ == '__main__':
     rospy.init_node('image_to_video_node')
 
     # Get file name from rosparam
-    image_topic = 'image'
+    image_topic = rospy.get_param('~image_topic', '/camera/image_raw')
+    if not check_topic_exists(image_topic):
+        rospy.signal_shutdown("Topic does not exist")
     file_name = rospy.get_param('~file_name', 'output')
     base_path = "/home/vittorio/ros_ws/video_dumps/" 
     current_date = datetime.datetime.now().strftime("%y_%m_%d_%H%M%S")
@@ -29,7 +38,8 @@ if __name__ == '__main__':
     # Create video writer
     print(f"Recording to {full_path}")
     print(f"Recording started at {datetime.datetime.now()}")
-    video_writer = cv2.VideoWriter(full_path, codec, 30, (1920, 1200))
+    video_writer = cv2.VideoWriter(full_path, codec, 30, (600, 600))
+
     # Subscribe to image topic
     rospy.Subscriber(image_topic, Image, image_callback)
 
