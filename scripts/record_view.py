@@ -26,9 +26,11 @@ if __name__ == '__main__':
     rospy.init_node('image_to_video_node')
 
     # Get file name from rosparam
-    image_topic = rospy.get_param('~image_topic', '/camera/image_raw')
+    image_topic = rospy.get_param('image_topic', '/camera/image_raw')
     if not check_topic_exists(image_topic):
         rospy.signal_shutdown("Topic does not exist")
+    img = rospy.wait_for_message(image_topic, Image)
+    height, width = img.height, img.width
     file_name = rospy.get_param('~file_name', 'output')
     base_path = "/home/vittorio/ros_ws/video_dumps/" 
     current_date = datetime.datetime.now().strftime("%y_%m_%d_%H%M%S")
@@ -38,7 +40,7 @@ if __name__ == '__main__':
     # Create video writer
     print(f"Recording to {full_path}")
     print(f"Recording started at {datetime.datetime.now()}")
-    video_writer = cv2.VideoWriter(full_path, codec, 30, (600, 600))
+    video_writer = cv2.VideoWriter(full_path, codec, 30, (width, height))
 
     # Subscribe to image topic
     rospy.Subscriber(image_topic, Image, image_callback)
