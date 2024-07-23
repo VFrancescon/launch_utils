@@ -19,17 +19,23 @@ def check_topic_exists(topic_name):
     topics = rospy.get_published_topics()
     for topic in topics:
         if topic[0] == topic_name:
+            rospy.loginfo(f"Topic {topic_name} exists")
             return True
+    rospy.logerr(f"Topic {topic_name} does not exist")
     return False
 
 if __name__ == '__main__':
-    rospy.init_node('image_to_video_node')
+    rospy.init_node('image_to_video_node', anonymous=True)
 
     # Get file name from rosparam
-    image_topic = rospy.get_param('image_topic', '/camera/image_raw')
+    image_topic = rospy.get_param('/record_view/image_topic', '/camera/image_raw')
     if not check_topic_exists(image_topic):
         rospy.signal_shutdown("Topic does not exist")
-    img = rospy.wait_for_message(image_topic, Image)
+    try:
+        img = rospy.wait_for_message(image_topic, Image, timeout=None)
+    except rospy.ROSException as e:
+        rospy.logerr(f"Failed to receive image message: {str(e)}")
+        rospy.signal_shutdown("Image message timeout")
     height, width = img.height, img.width
     file_name = rospy.get_param('~file_name', 'output')
     base_path = "/home/vittorio/ros_ws/video_dumps/" 
@@ -45,7 +51,9 @@ if __name__ == '__main__':
     # Subscribe to image topic
     rospy.Subscriber(image_topic, Image, image_callback)
 
-    rospy.spin()
+    
+    while(not rospy.is_shutdown()):
+        rospy.spin()
 
     # Release video writer
     video_writer.release()

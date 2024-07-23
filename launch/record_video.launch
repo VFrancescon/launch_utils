@@ -2,9 +2,9 @@
     <!-- Start the video_recorder node -->
     <node pkg="launch_utils" type="record_view.py" name="record_view" output="screen">
         <!-- Set the input image topic -->
-        <param name="image_topic" value="/tentacle_img"/>
+        <param name="image_topic" value="/pylon_camera_node/image_rect"/>
         <!-- Set the output video file -->
-        <param name="file_name" value="centreline"/>
+        <param name="file_name" value="papilla"/>
         <param name="codec" value="mp4v"/>
     </node>
 </launch>
