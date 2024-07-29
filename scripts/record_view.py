@@ -40,7 +40,7 @@ if __name__ == '__main__':
     file_name = rospy.get_param('~file_name', 'output')
     base_path = "/home/vittorio/ros_ws/video_dumps/" 
     current_date = datetime.datetime.now().strftime("%y_%m_%d_%H%M%S")
-    full_path = base_path + current_date + "_" + file_name + ".mp4"
+    full_path = base_path + file_name + "_" + current_date + ".mp4"
     codec = rospy.get_param('~codec', 'mp4v')
     codec = cv2.VideoWriter_fourcc(*codec)
     # Create video writer
