@@ -1,0 +1,11 @@
+<launch>
+    <arg name="exp_name" default="dflt_exp"/>
+    <!-- Start the video_recorder node -->
+    <node pkg="launch_utils" type="record_rviz.py" name="record_rviz" output="screen">
+        <!-- Set the input image topic -->
+        <param name="image_topic" value="/pylon_camera_node/image_rect"/>
+        <!-- Set the output video file -->
+        <param name="file_name" value="$(arg exp_name)"/>
+        <param name="codec" value="mp4v"/>
+    </node>
+</launch>
